@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Rusty Plough</title>
+
+<style>
+body { font-family: Arial; margin:0; background:#6e572c; }
+nav { background:#8b7d28; color:white; padding:1rem; display:flex; justify-content:space-between; }
+nav a { color:white; margin-left:15px; cursor:pointer;  font-weight: bold;}
+.page { display:none; padding:2rem; }
+.active { display:block; }
+
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+.card { background:white; padding:1rem; border-radius:10px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.1);} 
+button { background:#c62828; color:white; border:none; padding:10px; margin-top:10px; cursor:pointer; }
+
+.cart-item { display:flex; justify-content:space-between; margin:10px 0; }
+
+    /* FOOTER */
+    footer {
+      background-color: #6e572c;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    footer a {
+      color: #d4a574;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+</style>
+</head>
+<body>
+
+<nav>
+<h2>The Rusty Plough</h2>
+<div>
+<a href="index.html")">Home</a>
+<a onclick="navigate('checkout')">Cart (<span id='cart-count'>0</span>)</a>
+</div>
+</nav>
+
+<!-- MENU PAGE -->
+
+
+<div id="menu" class="page active">
+<h1>Menu</h1>
+<div class="grid" id="menu-grid"></div>
+</div>
+
+<!-- ITEM PAGE -->
+<div id="item" class="page">
+<h1 id="item-name"></h1>
+<p id="item-desc"></p>
+<p id="item-price"></p>
+<button onclick="addToCart()">Add to Cart</button>
+</div>
+
+<!-- CHECKOUT PAGE -->
+<div id="checkout" class="page">
+<h1>Checkout</h1>
+<button onclick="navigate('menu')"> Add More Items</button>
+<div id="cart-items"></div>
+<h2 id="total"></h2>
+<button onclick="checkout()">Place Order</button>
+</div>
+
+<script>
+const menuData = [
+{ id:1, name:"Classic Burger", desc:"Juicy beef burger", price:10.99 },
+{ id:2, name:"Crispy Chicken", desc:"Fried chicken sandwich", price:9.99 },
+{ id:3, name:"Fries", desc:"Crispy fries", price:4.99 },
+{ id:4, name:"Soda", desc:"Ice cold soda", price:1.99 },
+{ id:5, name:"Milkshake", desc:"Creamy milkshake", price:3.99 },
+{ id:6, name:"Grilled Cheese", desc:"Classic grilled cheese sandwich", price:4.99 },
+{ id:7, name:"Mushroom Swiss Burger", desc:"Burger with mushrooms and swiss cheese", price:11.99 },
+{ id:8, name:"Bacon Burger", desc:"Delicious bacon patty with melted cheese", price:10.99 },
+{ id:9, name:"Ice Coffee", desc:"Refreshing iced coffee", price:2.99 },
+{ id:10, name:"Pepsi Products", desc:"Variety of Pepsi beverages", price:1.99 },
+{ id:11, name:"Veggie Burger", desc:"Delicious plant-based burger", price:9.99 },
+{ id:12, name:"Side Salad", desc:"Fresh mixed greens with dressing", price:5.99 },
+{ id:13, name:"BLT Sandwich", desc:"Classic bacon, lettuce, and tomato sandwich", price:8.99 },
+{ id:14, name:"Chicken Nuggets", desc:"Crispy chicken nuggets with dipping sauce", price:6.99 },
+{ id:15, name:"Fish Sandwich", desc:"Crispy fish fillet with tartar sauce", price:9.99 },
+{ id:16, name:"Onion Rings", desc:"Crispy battered onion rings", price:4.99 },
+{ id:17, name:"Chocolate Shake", desc:"Rich chocolate milkshake", price:3.99 }
+];
+
+let currentItem = null;
+let cart = [];
+
+function navigate(page){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(page).classList.add('active');
+ if(page==='checkout') renderCart();
+}
+
+function renderMenu(){
+ const grid = document.getElementById('menu-grid');
+ grid.innerHTML='';
+ menuData.forEach(item=>{
+  const div=document.createElement('div');
+  div.className='card';
+  div.innerHTML=`<h3>${item.name}</h3><p>$${item.price}</p>`;
+  div.onclick=()=>openItem(item);
+  grid.appendChild(div);
+ });
+}
+
+function openItem(item){
+ currentItem=item;
+ document.getElementById('item-name').innerText=item.name;
+ document.getElementById('item-desc').innerText=item.desc;
+ document.getElementById('item-price').innerText="$"+item.price;
+ navigate('item');
+}
+
+function addToCart(){
+ cart.push(currentItem);
+ updateCartCount();
+ alert('Added to cart');
+}
+
+function updateCartCount(){
+ document.getElementById('cart-count').innerText=cart.length;
+}
+
+function renderCart(){
+ const container=document.getElementById('cart-items');
+ container.innerHTML='';
+ let total=0;
+ cart.forEach((item,i)=>{
+  total+=item.price;
+  const div=document.createElement('div');
+  div.className='cart-item';
+  div.innerHTML=`${item.name} - $${item.price} <button onclick="removeItem(${i})">X</button>`;
+  container.appendChild(div);
+ });
+ document.getElementById('total').innerText="Total: $"+total.toFixed(2);
+}
+
+function removeItem(index){
+ cart.splice(index,1);
+ updateCartCount();
+ renderCart();
+}
+
+function checkout(){
+ alert('Order placed!');
+ cart=[];
+ updateCartCount();
+ navigate('menu');
+}
+
+renderMenu();
+</script>
+
+<!-- FOOTER -->
+<footer>
+  <p>Phone: (555) 123-4567</p>
+  <p>Address: 123 Main Street, Anytown, USA 12345</p>
+  <p>Follow us: <a href="https://facebook.com/therustyplough">Facebook</a> | <a href="https://instagram.com/therustyplough">Instagram</a> | <a href="https://twitter.com/therustyplough">Twitter</a></p>
+  <p>&copy; 2026 The Rusty Plough. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

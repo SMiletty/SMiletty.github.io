@@ -1,0 +1,131 @@
+ body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: #fafafa;
+      color: #222;
+    }
+
+    /* NAVBAR */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: #c62828;
+      color: white;
+      position: sticky;
+      top: 0;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+    }
+
+    /* HERO */
+    .hero {
+      height: 70vh;
+      background: url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd') center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      background: rgba(0,0,0,0.5);
+      padding: 1rem;
+    }
+
+    /* CATEGORY NAV */
+    .categories {
+      display: flex;
+      overflow-x: auto;
+      padding: 1rem;
+      gap: 10px;
+      background: white;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .category-btn {
+      padding: 10px 20px;
+      border: none;
+      background: #eee;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .category-btn.active {
+      background: #c62828;
+      color: white;
+    }
+
+    /* MENU GRID */
+    .menu {
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    /* CARD */
+    .card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 1rem;
+    }
+
+    .card h3 {
+      margin: 0;
+    }
+
+    .price {
+      color: #c62828;
+      font-weight: bold;
+    }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 400px;
+    }
+
+    .close {
+      float: right;
+      cursor: pointer;
+      font-size: 20px;
+    }
