@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Rusty Plough</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: #6e572c;
+      color: #222;
+    }
+
+    /* NAVBAR */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: #8b7d28;
+      color: white;
+      position: sticky;
+      top: 0;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+    }
+
+    /* HERO */
+    .hero {
+      height: 70vh;
+      background: url('/images/hero.png') center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      background: rgba(0,0,0,0.5);
+      padding: 1rem;
+    }
+
+    /* CATEGORY NAV */
+    .categories {
+      display: flex;
+      overflow-x: auto;
+      padding: 1rem;
+      gap: 10px;
+      background: white;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .category-btn {
+      padding: 10px 20px;
+      border: none;
+      background: #eee;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .category-btn.active {
+      background: #c62828;
+      color: white;
+    }
+
+    /* MENU GRID */
+    .menu {
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    /* CARD */
+    .card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 1rem;
+    }
+
+    .card h3 {
+      margin: 0;
+    }
+
+    .price {
+      color: #da2a2a;
+      font-weight: bold;
+    }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 400px;
+    }
+
+    .close {
+      float: right;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    /* FOOTER */
+    footer {
+      background-color: 572;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    footer a {
+      color: #d4a574;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+  <h2>The Rusty Plough</h2>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="menu.html">Order</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Fresh Flavor. Hometown Taste.</h1>
+</section>
+
+<!-- CATEGORY FILTER -->
+<div class="categories">
+  
+  <button class="category-btn" onclick="filterMenu('burger')">Burgers</button>
+  <button class="category-btn" onclick="filterMenu('other')">Other Sandwiches</button>
+  <button class="category-btn" onclick="filterMenu('sides')">Sides</button>
+  <button class="category-btn" onclick="filterMenu('drinks')">Drinks</button>
+</div>
+
+<!-- MENU -->
+<section id="menu" class="menu">
+
+  <div class="card" data-category="burger" onclick="openModal('Smashed Burger')">
+    <img src="/images/smash.png" alt="smash burger">
+    <div class="card-content">
+      <h3>Smashed Burger</h3>
+      <p>Juicy beef, lettuce, tomato</p>
+      <p class="price">$10.99</p>
+    </div>
+  </div>
+
+  <div class="card" data-category="burger" onclick="openModal('Hamburger')">
+    <img src="/images/single.png" alt="hamburger">
+    <div class="card-content">
+      <h3>Hamburger</h3>
+      <p>Fresh Grilled Burger</p>
+      <p class="price">$9.99</p>
+    </div>
+  </div>
+
+  <div class="card" data-category="sides" onclick="openModal('Fries')">
+    <img src="/images/fries.png" alt="fries">
+    <div class="card-content">
+      <h3>Steak Fries</h3>
+      <p>Unlimited refills </p>
+      <p class="price">$4.99</p>
+    </div>
+  </div>
+
+  <div class="card" data-category="drinks" onclick="openModal('Milkshake')">
+     <img src="/images/juice.png" alt="Juice">
+    <div class="card-content">
+      <h3>Fresh Juice</h3>
+      <p>Orange, Apple, Cranberry</p>
+      <p class="price">$5.99</p>
+    </div>
+  </div>
+
+    <div class="card" data-category="sides" onclick="openModal('Sweet Potato Fries')">
+    <img src="/images/sweet.png" alt="sweet potato fries">
+    <div class="card-content">
+      <h3>Sweet Potato Fries</h3>
+      <p>Crispy on the outside, soft on the inside</p>
+      <p class="price">$4.99</p>
+    </div>
+  </div>
+
+    <div class="card" data-category="drinks" onclick="openModal('Milkshake')">
+     <img src="/images/shake.png" alt="milkshake">
+    <div class="card-content">
+      <h3>Birthday Cake Shake</h3>
+      <p>Rich & creamy</p>
+      <p class="price">$5.99</p>
+    </div>
+  </div>
+
+     <div class="card" data-category="sides" onclick="openModal('Classic Burger')">
+    <img src="/images/salad.png" alt="side salad">
+    <div class="card-content">
+      <h3>Side Salad</h3>
+      <p>Fresh greens with your choice of dressing</p>
+      <p class="price">$3.99</p>
+    </div>
+  </div>
+
+       <div class="card" data-category="other" onclick="openModal('Grilled Cheese')">
+    <img src="/images/grilled.png" alt="side salad">
+    <div class="card-content">
+      <h3>Grilled Cheese</h3>
+      <p>Classic grilled cheese sandwich</p>
+      <p class="price">$4.99</p>
+    </div>
+  </div>
+
+       <div class="card" data-category="burger" onclick="openModal('Mushroom Swiss Burger')">
+    <img src="/images/mushroom.png" alt="Mushroom Swiss Burger">
+    <div class="card-content">
+      <h3>Mushroom Swiss Burger</h3>
+      <p>Delicious mushroom patty with melted Swiss cheese</p>
+      <p class="price">$12.99</p>
+    </div>
+  </div>
+
+         <div class="card" data-category="other" onclick="openModal('BLT Sandwich')">
+    <img src="/images/blt.png" alt="BLT Sandwich">
+    <div class="card-content">
+      <h3>BLT Sandwich</h3>
+      <p>Classic bacon, lettuce, and tomato</p>
+      <p class="price">$8.99</p>
+    </div>
+  </div>
+
+    <div class="card" data-category="drinks" onclick="openModal('Pepsi Products')">
+     <img src="/images/soda.png" alt="soda">
+    <div class="card-content">
+      <h3>Ice cold soda</h3>
+      <p>Crisp and refreshing</p>
+      <p class="price">$5.99</p>
+    </div>
+  </div>
+
+    <div class="card" data-category="drinks" onclick="openModal('Ice Coffee')">
+     <img src="/images/coffee.png" alt="coffee">
+    <div class="card-content">
+      <h3>Ice Coffee</h3>
+      <p>Rich & creamy</p>
+      <p class="price">$5.99</p>
+    </div>
+  </div>
+
+      <div class="card" data-category="burger" onclick="openModal('Bacon Burger')">
+     <img src="/images/bacon (2).png" alt="bacon burger">
+    <div class="card-content">
+      <h3>Bacon Burger</h3>
+      <p>Delicious bacon patty with melted cheese</p>
+      <p class="price">$10.99</p>
+    </div>
+  </div>
+
+
+</section>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2 id="modal-title"></h2>
+    <p>Customize your meal, add extras, and order now!</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>Phone: (555) 123-4567</p>
+  <p>Address: 123 Main Street, Anytown, USA 12345</p>
+  <p>Follow us: <a href="https://facebook.com/therustyplough">Facebook</a> | <a href="https://instagram.com/therustyplough">Instagram</a> | <a href="https://twitter.com/therustyplough">Twitter</a></p>
+  <p>&copy; 2026 The Rusty Plough. All rights reserved.</p>
+</footer>
+
+<script>
+  function filterMenu(category) {
+    let cards = document.querySelectorAll('.card');
+    let buttons = document.querySelectorAll('.category-btn');
+
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    cards.forEach(card => {
+      if (category === 'all' || card.dataset.category === category) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  }
+
+  function openModal(name) {
+    document.getElementById('modal-title').innerText = name;
+    document.getElementById('modal').style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById('modal').style.display = "none";
+  }
+</script>
+
+</body>
+</html>
